@@ -2,13 +2,16 @@
 
 Evidence-based analysis of long, noisy relationship chat histories. This skill cleans message exports, segments the relationship timeline, extracts interaction patterns from both participants, and synthesizes repeated emotional and communication dynamics.
 
-## Usage
+## Example Prompts
 
 ```text
-/relationship-chat-analysis
-/relationship-chat-analysis --dry-run
-/relationship-chat-analysis --period 2026-01 2026-03
-/relationship-chat-analysis --focus "conflict repair and mixed signals"
+Analyze this LINE chat export and tell me the recurring conflict and repair patterns.
+
+I have a long WhatsApp history with a lot of stickers and system messages. Clean it first, then analyze whether the effort feels balanced.
+
+Look at these chats from January to March 2026 and focus on coldness, mixed signals, and reconnection attempts.
+
+Before doing the full analysis, inspect the chat log quality and tell me whether the speaker attribution and timeline are reliable enough.
 ```
 
 ## What It Does

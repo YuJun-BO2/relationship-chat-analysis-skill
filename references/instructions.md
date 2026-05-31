@@ -22,13 +22,14 @@ OUTPUT_FOLDER = relationship-analysis
 - Redact unnecessary private identifiers in final output.
 - If safety concerns appear, name the observable behavior and evidence without exaggeration.
 
-## Step 0: Parse Request And Load Config
+## Step 0: Understand Request And Load Config
 
-Parse optional user arguments:
+Infer the user's analysis intent from natural language. Common request types include:
 
-- `--dry-run`: only inspect corpus quality and segmentation plan.
-- `--period START END`: restrict to a date range.
-- `--focus "..."`: prioritize a user-specified question, such as conflict repair, coldness, mixed signals, breakup, reconciliation, or emotional needs.
+- A full relationship chat analysis.
+- A corpus-quality check before full analysis.
+- A date-limited analysis, such as "January to March 2026".
+- A focused analysis of conflict repair, coldness, mixed signals, breakup, reconciliation, emotional needs, boundaries, or effort balance.
 
 Read `config.json`.
 
