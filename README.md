@@ -1,93 +1,70 @@
-# Thinking Patterns Skill
+# Relationship Chat Analysis Skill
 
-Longitudinal cognitive pattern analysis across months of recorded conversations. Extracts evidence-based dimensions from Fathom transcripts, synthesizes cross-session patterns, and detects blind spots you can't see yourself.
+Evidence-based analysis of long, noisy relationship chat histories. This skill cleans message exports, segments the relationship timeline, extracts interaction patterns from both participants, and synthesizes repeated emotional and communication dynamics.
 
 ## Usage
 
-```
-/thinking-patterns                              # full analysis, default period (3 months)
-/thinking-patterns --dry-run                    # corpus stats + batch plan only
-/thinking-patterns --period 2026-01 2026-02     # custom date range
-```
-
-## What it does
-
-1. Discovers all Fathom transcripts in date range, classifies by type (coaching, meeting, lab, etc.)
-2. Extracts Gleb's speech lines from each transcript
-3. Analyzes 12 evidence-based cognitive dimensions per transcript (parallel sonnet agents)
-4. Synthesizes cross-session patterns across 10 analysis sections (parallel sonnet agents)
-5. Detects contradictions, competing commitments, and blind spots
-6. Produces single analysis document with dated evidence quotes
-
-## 12 Extraction Dimensions
-
-| Dimension | Framework |
-|-----------|-----------|
-| Cognitive distortions | Burns' 10 categories |
-| Problem framing | Discourse analysis |
-| Conceptual metaphors | Lakoff & Johnson / MIPVU |
-| Hedging & certainty | Epistemic marker taxonomy |
-| Code-switching | Bilingual cognition research |
-| Decision moments | GDMS + behavioral markers |
-| Emotional indicators | Russell's Circumplex + ACT |
-| Avoidance & deflection | ACT experiential avoidance |
-| Agency language | Narrative Identity Theory |
-| Competing commitments | Immunity to Change (Kegan) |
-| Role/register markers | Sociolinguistic analysis |
-| Energy signals | Engagement markers |
-
-## 10 Output Sections
-
-1. Recurring Narratives
-2. Problem Framing Patterns
-3. Metaphors & Unconscious Language
-4. Decision Heuristics
-5. Topics Avoided
-6. Contradictions & Competing Commitments
-7. Energy Patterns
-8. Role Shifts
-9. Execution Gap (stated priorities vs actual focus)
-10. Cognitive Distortions & Biases
-
-Plus: "The 5 Things You Don't See" summary.
-
-## Output
-
-- **Analysis**: `ai-research/YYYYMMDD-thinking-patterns-analysis.md`
-- **Daily note**: Link appended under `## Research`
-
-## Architecture
-
-```
-Stage 0: Corpus Discovery (~30s, orchestrator)
-  ├── Find transcripts, classify, extract Gleb's speech
-  └── Load reference docs, plan batches
-
-Stage 1: Per-Transcript Extraction (~3 min, 10-13 parallel sonnet agents)
-  ├── Each agent processes 1-4 transcripts
-  └── Returns structured JSON per transcript (12 dimensions)
-
-Stage 2: Aggregation (~30s, orchestrator)
-  ├── Parse JSONs, de-duplicate, cluster
-  └── Package into 5 synthesis bundles
-
-Stage 3: Cross-Session Synthesis (~2 min, 5 parallel sonnet agents)
-  ├── Narratives + Metaphors + Language
-  ├── Decisions + Problem Framing + Biases
-  ├── Avoidance + Energy + Execution Gap
-  ├── Role Shifts + Developmental Markers
-  └── Blind Spot Detection
-
-Stage 4: Output (~1 min, orchestrator)
-  └── Compile, save, link
+```text
+/relationship-chat-analysis
+/relationship-chat-analysis --dry-run
+/relationship-chat-analysis --period 2026-01 2026-03
+/relationship-chat-analysis --focus "conflict repair and mixed signals"
 ```
 
-## Cost
+## What It Does
 
-~$3.50 per full run, ~6 minutes runtime.
+1. Discovers chat logs or uses user-provided files.
+2. Normalizes messages into a structured timeline.
+3. Removes or labels low-signal noise such as stickers, media placeholders, system messages, deleted messages, duplicated exports, and unrelated content.
+4. Segments the chat into relationship episodes such as ordinary contact, conflict, distance, repair, intimacy, planning, and breakup/reconciliation.
+5. Extracts evidence-based relationship dimensions from each episode.
+6. Synthesizes recurring patterns across time.
+7. Produces a report that separates observations, interpretations, uncertainties, and safety concerns.
+
+## Analysis Dimensions
+
+| Dimension | What it captures |
+|-----------|------------------|
+| Initiation and pursuit | Who starts contact and who sustains it |
+| Responsiveness | Reply timing, silence, coldness, and availability |
+| Emotional bids | Requests for care, reassurance, closeness, attention, or repair |
+| Validation and invalidation | Whether feelings are acknowledged, minimized, mocked, or redirected |
+| Conflict escalation | How disagreement intensifies |
+| Repair attempts | Apologies, softening, accountability, humor, reassurance, reconnection |
+| Avoidance and deflection | Topic shifting, withdrawal, stonewalling, ambiguity |
+| Boundaries and pressure | Consent, respect, control, guilt, demands, repeated pushing |
+| Effort balance | Who explains, waits, plans, accommodates, or follows up |
+| Intimacy signals | Trust, vulnerability, affection, future orientation |
+| Ambiguity and mixed signals | Contradictory closeness/distance or promise/withdrawal loops |
+| Safety concerns | Threats, coercion, stalking, self-harm, harassment, sexual pressure |
+
+## Output Sections
+
+1. Relationship Timeline
+2. Data Quality and Missing Context
+3. Communication Pattern
+4. Emotional Needs and Bids
+5. Conflict Escalation Pattern
+6. Repair and Reconnection Pattern
+7. Distance, Avoidance, and Coldness
+8. Boundaries, Pressure, and Safety
+9. Effort Balance and Power Dynamics
+10. Repeating Loops
+11. Blind Spots for Each Person
+12. What the Evidence Does Not Support
+
+## Output Files
+
+- **Analysis**: `relationship-analysis/YYYYMMDD-relationship-chat-analysis.md`
+- **Corpus manifest**: `relationship-analysis/YYYYMMDD-chat-corpus-manifest.json`
 
 ## Requirements
 
-- Fathom transcripts in vault root (YYYYMMDD-*.md format)
-- Reference docs: Profile Brief, My Focus, Strategic Decisions Framework
-- No external dependencies -- pure Claude Code tools
+- Chat logs in text-like form, or pasted conversation text
+- Enough dates or ordering information to infer a timeline
+- Speaker names or aliases when possible
+- Optional user context about the relationship and the question they want answered
+
+## Notes
+
+This skill does not diagnose either participant. It can identify evidence of patterns, risk signals, and plausible interpretations, but it should state uncertainty clearly and avoid claiming private motives as fact.
