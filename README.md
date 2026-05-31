@@ -2,6 +2,14 @@
 
 Evidence-based analysis of long, noisy relationship chat histories. This skill cleans message exports, segments the relationship timeline, extracts interaction patterns from both participants, and synthesizes repeated emotional and communication dynamics.
 
+## Privacy First
+
+This skill handles highly sensitive interpersonal data. Use only chat records the user explicitly provides or identifies. Do not scan broad folders for possible chat logs.
+
+Before writing files, tell the user the output paths and get consent unless they already requested file output. Generated reports and manifests may persist in local backups, sync services, search indexes, or future processes.
+
+The skill should minimize stored data: redact unnecessary identifiers, avoid storing raw full chat logs, and quote only short excerpts needed as evidence.
+
 ## Example Prompts
 
 ```text
@@ -16,7 +24,7 @@ Before doing the full analysis, inspect the chat log quality and tell me whether
 
 ## What It Does
 
-1. Discovers chat logs or uses user-provided files.
+1. Uses chat logs the user explicitly provides, pastes, attaches, or names.
 2. Normalizes messages into a structured timeline.
 3. Removes or labels low-signal noise such as stickers, media placeholders, system messages, deleted messages, duplicated exports, and unrelated content.
 4. Segments the chat into relationship episodes such as ordinary contact, conflict, distance, repair, intimacy, planning, and breakup/reconciliation.

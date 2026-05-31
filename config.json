@@ -2,6 +2,11 @@
   "period_start": null,
   "period_end": null,
   "output_folder": "relationship-analysis",
+  "require_explicit_file_selection": true,
+  "require_write_confirmation": true,
+  "default_manifest_detail": "redacted_metadata_only",
+  "store_raw_messages_by_default": false,
+  "redact_identifiers_by_default": true,
   "default_focus": [
     "communication_patterns",
     "conflict_cycles",

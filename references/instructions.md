@@ -16,10 +16,14 @@ OUTPUT_FOLDER = relationship-analysis
 ## Operating Principles
 
 - Preserve both participants' messages unless the user explicitly asks to analyze only one side.
+- Process only chat records the user explicitly provides, attaches, pastes, or names.
+- Do not scan broad folders, the whole workspace, downloads, home directories, or unrelated file trees looking for possible chat logs.
+- Before writing reports or manifests to disk, disclose the output paths and get consent unless the user already requested file output.
+- Minimize retention: do not store raw full chat logs in generated artifacts by default.
 - Do not diagnose, label, or claim hidden motives as fact.
 - Every major conclusion should cite repeated evidence or clearly state that it is tentative.
 - Treat missing messages, deleted messages, screenshots without timestamps, and one-sided exports as data quality issues.
-- Redact unnecessary private identifiers in final output.
+- Redact unnecessary private identifiers in final output and generated manifests.
 - If safety concerns appear, name the observable behavior and evidence without exaggeration.
 
 ## Step 0: Understand Request And Load Config
@@ -33,15 +37,20 @@ Infer the user's analysis intent from natural language. Common request types inc
 
 Read `config.json`.
 
+Tell the user when local configuration is being used. Treat `config.json` as non-secret settings; if it appears to contain credentials or unrelated private data, stop and ask before using it.
+
 Ask for clarification only if:
 
+- No specific chat file or pasted content has been provided.
 - Speaker attribution is impossible.
 - The user asks for a conclusion that requires missing context.
 - The data may include immediate danger and the user's intent is unclear.
 
 ## Stage 1: Corpus Discovery
 
-Find chat files from user-provided paths or the current workspace. Include likely text formats such as `.txt`, `.md`, `.csv`, `.json`, `.html`, and exported chat text. If the user pasted chat content directly, treat the pasted text as the corpus.
+Use only user-provided file paths, attached files, or pasted chat content. Include likely text formats such as `.txt`, `.md`, `.csv`, `.json`, `.html`, and exported chat text only when the user explicitly identifies them as chat records. If the user pasted chat content directly, treat the pasted text as the corpus.
+
+Do not recursively search the workspace for chat files. If the user says "analyze my chats" but does not name or provide the files, ask them to provide the export or exact path.
 
 For each source, record:
 
@@ -87,6 +96,8 @@ Cleaning rules:
 - Merge multi-line messages only when they clearly belong to the same speaker and timestamp.
 - Deduplicate repeated export blocks.
 - Standardize participant aliases to `person_a` and `person_b`; keep a mapping in the manifest.
+- Redact unnecessary identifiers before writing any manifest.
+- Keep full normalized messages in memory only as needed for analysis. Do not persist them by default.
 
 ## Stage 3: Segment Into Episodes
 
@@ -173,6 +184,14 @@ Identify:
 
 ## Stage 8: Final Output
 
+Before writing output files, tell the user:
+
+- The exact output paths.
+- That the files may contain sensitive relationship analysis and short quoted excerpts.
+- That local files can persist in backups, sync services, search indexes, or later processes.
+
+Proceed with file output only if the user agrees or explicitly asked for saved files.
+
 Write to:
 
 ```text
@@ -201,3 +220,5 @@ Final report structure:
 ```
 
 Use short quotes with dates. Avoid dumping long private chat excerpts.
+
+The corpus manifest should contain source metadata, participant alias mapping, data quality notes, episode summaries, and counts. It should not contain raw full message text unless the user explicitly requests that and acknowledges the retention risk.
